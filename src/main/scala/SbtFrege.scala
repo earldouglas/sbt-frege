@@ -31,7 +31,10 @@ object SbtFrege extends Plugin {
 
     val forkOptions: ForkOptions = new ForkOptions
     val fork = new Fork("java", None)
-    fork(forkOptions, Seq("-cp", cps) ++ fregeArgs)
+    val result = fork(forkOptions, Seq("-cp", cps) ++ fregeArgs)
+    if (result != 0) {
+      throw new Exception("Frege compilation error")
+    }
   }
 
   val fregeSettings = Seq(
