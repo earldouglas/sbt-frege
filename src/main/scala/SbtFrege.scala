@@ -36,8 +36,8 @@ object SbtFrege extends Plugin {
 
   val fregeSettings = Seq(
     fregeOptions := Seq("-Xss1m"),
-    fregeSource in Compile := (sourceDirectory in Compile).value / "frege",
-    fregeTarget in Compile := baseDirectory.value / "target" / "frege" / "classes",
+    fregeSource := (sourceDirectory in Compile).value / "frege",
+    fregeTarget := baseDirectory.value / "target" / "frege" / "classes",
     (compile in Compile) := {
       fregec((managedClasspath in Compile).value,
              (fregeSource in Compile).value,
@@ -45,6 +45,11 @@ object SbtFrege extends Plugin {
              (fregeCompiler in Compile).value)
       (compile in Compile).value
     },
-    fregeCompiler := "frege.compiler.Main"
+    fregeCompiler := "frege.compiler.Main",
+    watchSources := {
+      (watchSources in Compile).value ++
+      ((sourceDirectory in Compile).value / "frege" ** "*").get
+    }
+
   )
 }
