@@ -1,4 +1,5 @@
-resolvers += Resolver.url("Typesafe repository", new java.net.URL("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/"))(Resolver.defaultIvyPatterns)
+// bintray for publishing
+addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
-libraryDependencies <+= (sbtVersion)("org.scala-sbt" %% "scripted-plugin" % _)
-
+// scripted for plugin testing
+libraryDependencies <+= sbtVersion(v => "org.scala-sbt" % "scripted-plugin" % v)

@@ -1,6 +1,3 @@
-version := "0.1-SNAPSHOT"
- 
 seq(SbtFrege.fregeSettings: _*)
  
-libraryDependencies += "frege" % "fregec" % "3.19.157"
-
+libraryDependencies += "frege" % "fregec" % "3.22.524" from "https://github.com/Frege/frege/releases/download/3.22.324/frege3.22.524-gcc99d7e.jar"
