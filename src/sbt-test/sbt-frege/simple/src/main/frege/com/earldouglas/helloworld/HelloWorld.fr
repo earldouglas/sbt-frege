@@ -1,0 +1,6 @@
+package com.earldouglas.helloworld.HelloWorld where
+
+import frege.IO
+
+main :: [String] -> IO ()
+main _ = print "Hello, world!"

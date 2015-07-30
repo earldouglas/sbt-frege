@@ -1,0 +1,4 @@
+# check if the file gets created
+$ absent target/frege/classes/com/earldouglas/helloworld/HelloWorld.class
+> compile
+$ exists target/frege/classes/com/earldouglas/helloworld/HelloWorld.class
