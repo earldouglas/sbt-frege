@@ -18,9 +18,6 @@ object SbtFrege extends Plugin {
              fregeTarget: File,
              fregeCompiler: String): Unit = {
 
-    // TODO incremental compile -- don't recompile stuff unless needed
-    // TODO mixed-mode compiling Java/Frege/Scala
-
     val cps = cp.map(_.data).mkString(String.valueOf(java.io.File.pathSeparatorChar))
     val fregeSrcs = (fregeSource ** "*.fr").getPaths
 

@@ -6,5 +6,3 @@ Option(System.getProperty("plugin.version")) match {
   case Some(pluginVersion) =>
     addSbtPlugin("com.earldouglas" % "sbt-frege" % pluginVersion)
 }
-
-libraryDependencies += "frege" % "fregec" % "3.22.524" from "https://github.com/Frege/frege/releases/download/3.22.324/frege3.22.524-gcc99d7e.jar"
