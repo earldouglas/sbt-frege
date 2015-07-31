@@ -16,13 +16,10 @@ object SbtFrege extends AutoPlugin {
   override def trigger = allRequirements
   override def requires = plugins.JvmPlugin
 
-  def fregec(cp: Seq[sbt.Attributed[java.io.File]],
-             fregeSource: File,
-             fregeTarget: File,
-             fregeCompiler: String): Unit = {
+  def fregec(cp: Seq[sbt.Attributed[File]], fregeTarget: File,
+             fregeCompiler: String)(fregeSrcs: Set[File]): Set[File] = {
 
-    val cps = cp.map(_.data).mkString(String.valueOf(java.io.File.pathSeparatorChar))
-    val fregeSrcs = (fregeSource ** "*.fr").getPaths
+    val cps = cp.map(_.data).mkString(String.valueOf(File.pathSeparatorChar))
 
     fregeTarget.mkdirs()
 
@@ -31,13 +28,15 @@ object SbtFrege extends AutoPlugin {
       "-j",
       "-fp", cps,
       "-d", fregeTarget.getPath
-    ) ++ fregeSrcs
+    ) ++ fregeSrcs.map(_.getPath)
 
     val forkOptions: ForkOptions = new ForkOptions
     val fork = new Fork("java", None)
     val result = fork(forkOptions, Seq("-cp", cps) ++ fregeArgs)
     if (result != 0) {
-      throw new Exception("Frege compilation error")
+      throw new RuntimeException("Frege compilation error")
+    } else {
+      (PathFinder(fregeTarget) ** "*.java").get.toSet
     }
   }
 
@@ -46,11 +45,14 @@ object SbtFrege extends AutoPlugin {
     fregeSource := (sourceDirectory in Compile).value / "frege",
     fregeTarget := baseDirectory.value / "target" / "frege",
     sourceGenerators in Compile += Def.task {
-      fregec((managedClasspath in Compile).value,
-             (fregeSource in Compile).value,
-             (fregeTarget in Compile).value,
-             (fregeCompiler in Compile).value)
-      (fregeTarget.value ** "*.java").get
+      val cacheDir = streams.value.cacheDirectory / "frege"
+      val cached = FileFunction.cached(
+        cacheDir, FilesInfo.lastModified, FilesInfo.exists) {
+          fregec((managedClasspath in Compile).value,
+                 (fregeTarget in Compile).value,
+                 (fregeCompiler in Compile).value)
+        }
+      cached((fregeSource.value ** "*.fr").get.toSet).toSeq
     }.taskValue,
     fregeCompiler := "frege.compiler.Main",
     watchSources := {
