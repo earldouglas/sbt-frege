@@ -54,7 +54,7 @@ object SbtFrege extends AutoPlugin {
     }.taskValue,
     fregeCompiler := "frege.compiler.Main",
     watchSources := {
-      (watchSources in Compile).value ++
+      watchSources.value ++
       ((sourceDirectory in Compile).value / "frege" ** "*").get
     }
   )
