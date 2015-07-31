@@ -9,7 +9,7 @@ Add the Frege sbt plugin to your project:
 *project/plugins.sbt:*
 
 ```scala
-addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.2.0")
+addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.3.0")
 ```
 
 Enable the Frege sbt plugin, and include the Frege library:
