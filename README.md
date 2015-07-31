@@ -29,14 +29,16 @@ Write some Frege code:
 package example.HelloWorld where
 
 main :: [String] -> IO ()
-main _ = print "Hello, world!"
+main _ = println "Hello, world!"
 ```
 
-Build it:
+Build and run it:
 
 ```
 $ sbt
 > compile
+> run
+Hello, world!
 ```
 
 ## Configuration
