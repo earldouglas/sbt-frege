@@ -1,17 +1,20 @@
 import sbt._
 import Keys._
 
-object SbtFrege extends Plugin {
+object SbtFrege extends AutoPlugin {
 
-  import SbtFregeKeys._
+  object autoImport {
+    lazy val fregeOptions  = taskKey[Seq[String]]("Extra options for fregec.")
+    lazy val fregeSource   = settingKey[File]("Default Frege source directory.")
+    lazy val fregeTarget   = settingKey[File]("Default Frege target directory.")
+    lazy val fregeCompiler = settingKey[String]("Full name of the Frege compiler.")
+  }
+
+  import autoImport._
   import java.io.File
 
-  object SbtFregeKeys {
-    val fregeOptions  = taskKey[Seq[String]]("Extra options for fregec.")
-    val fregeSource   = settingKey[File]("Default Frege source directory.")
-    val fregeTarget   = settingKey[File]("Default Frege target directory.")
-    val fregeCompiler = settingKey[String]("Full name of the Frege compiler.")
-  }
+  override def trigger = allRequirements
+  override def requires = plugins.JvmPlugin
 
   def fregec(cp: Seq[sbt.Attributed[java.io.File]],
              fregeSource: File,
@@ -38,7 +41,7 @@ object SbtFrege extends Plugin {
     }
   }
 
-  val fregeSettings = Seq(
+  override def projectSettings = Seq(
     fregeOptions := Seq("-Xss1m"),
     fregeSource := (sourceDirectory in Compile).value / "frege",
     fregeTarget := baseDirectory.value / "target" / "frege",
@@ -54,6 +57,6 @@ object SbtFrege extends Plugin {
       (watchSources in Compile).value ++
       ((sourceDirectory in Compile).value / "frege" ** "*").get
     }
-
   )
+
 }
