@@ -14,7 +14,7 @@ addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.3.0")
 
 Enable the Frege sbt plugin, and include the Frege library:
 
-*build.sbt:*
+both *project/project/build.sbt* and *build.sbt:*
 
 ```scala
 libraryDependencies += "frege" % "fregec" % "3.22.524" from
