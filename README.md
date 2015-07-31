@@ -1,3 +1,7 @@
+## Requirements
+
+* sbt 0.13.6+
+
 ## Getting started
 
 Add the Frege sbt plugin to your project:
@@ -5,9 +9,7 @@ Add the Frege sbt plugin to your project:
 *project/plugins.sbt:*
 
 ```scala
-resolvers += "earldouglas bintray" at "https://dl.bintray.com/earldouglas/sbt-plugins/"
-
-addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.1.0")
+addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.2.0")
 ```
 
 Enable the Frege sbt plugin, and include the Frege library:
@@ -15,8 +17,6 @@ Enable the Frege sbt plugin, and include the Frege library:
 *build.sbt:*
 
 ```scala
-SbtFrege.fregeSettings
- 
 libraryDependencies += "frege" % "fregec" % "3.22.524" from
   "https://github.com/Frege/frege/releases/download/3.22.324/frege3.22.524-gcc99d7e.jar"
 ```
@@ -39,3 +39,14 @@ $ sbt
 > compile
 ```
 
+## Configuration
+
+* `fregeOptions`: Extra options for fregec (`Seq[String]`)
+* `fregeSource`: Frege source directory (default *src/frege/*) (`File`)
+* `fregeTarget`: Frege target directory (default *target/frege/*) (`File`)
+* `fregeCompiler`: Full name of the Frege compiler (default *frege.compiler.Main*) (`String`)
+
+## Features
+
+* Compile Frege code in *src/frege/*
+* Call Frege code from Java/Scala/etc. code
