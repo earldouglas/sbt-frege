@@ -4,10 +4,10 @@ import Keys._
 object SbtFrege extends AutoPlugin {
 
   object autoImport {
-    lazy val fregeOptions  = taskKey[Seq[String]]("Extra options for fregec.")
-    lazy val fregeSource   = settingKey[File]("Default Frege source directory.")
-    lazy val fregeTarget   = settingKey[File]("Default Frege target directory.")
-    lazy val fregeCompiler = settingKey[String]("Full name of the Frege compiler.")
+    lazy val fregeOptions  = taskKey[Seq[String]]("Extra options for fregec")
+    lazy val fregeSource   = settingKey[File]("Frege source directory")
+    lazy val fregeTarget   = settingKey[File]("Frege target directory")
+    lazy val fregeCompiler = settingKey[String]("Full name of the Frege compiler")
   }
 
   import autoImport._
