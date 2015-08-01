@@ -9,16 +9,7 @@ Add the Frege sbt plugin to your project:
 *project/plugins.sbt:*
 
 ```scala
-addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.3.0")
-```
-
-Enable the Frege sbt plugin, and include the Frege library:
-
-both *project/project/build.sbt* and *build.sbt:*
-
-```scala
-libraryDependencies += "frege" % "fregec" % "3.22.524" from
-  "https://github.com/Frege/frege/releases/download/3.22.324/frege3.22.524-gcc99d7e.jar"
+addSbtPlugin("com.earldouglas" % "sbt-frege" % "0.4.0")
 ```
 
 Write some Frege code:
@@ -47,6 +38,7 @@ Hello, world!
 * `fregeSource`: Frege source directory (default *src/frege/*) (`File`)
 * `fregeTarget`: Frege target directory (default *target/frege/*) (`File`)
 * `fregeCompiler`: Full name of the Frege compiler (default *frege.compiler.Main*) (`String`)
+* `fregeLibrary`: Frege library (fregec.jar) to use (default *Frege 3.22.524*) (`ModuleID`)
 
 ## Features
 
