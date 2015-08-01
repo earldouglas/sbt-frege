@@ -8,6 +8,7 @@ object SbtFrege extends AutoPlugin {
     lazy val fregeSource   = settingKey[File]("Frege source directory")
     lazy val fregeTarget   = settingKey[File]("Frege target directory")
     lazy val fregeCompiler = settingKey[String]("Full name of the Frege compiler")
+    lazy val fregeLibrary  = settingKey[ModuleID]("Frege library (fregec.jar)")
   }
 
   import autoImport._
@@ -58,7 +59,11 @@ object SbtFrege extends AutoPlugin {
     watchSources := {
       watchSources.value ++
       ((sourceDirectory in Compile).value / "frege" ** "*").get
-    }
+    },
+    fregeLibrary := "frege" % "fregec" % "3.22.524" from
+      "https://github.com/Frege/frege/releases/download/3.22.324/" +
+      "frege3.22.524-gcc99d7e.jar",
+    libraryDependencies += fregeLibrary.value
   )
 
 }
