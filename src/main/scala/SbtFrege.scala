@@ -17,7 +17,7 @@ object SbtFrege extends AutoPlugin {
   override def trigger = allRequirements
   override def requires = plugins.JvmPlugin
 
-  def fregec(cp: Seq[sbt.Attributed[File]], fregeTarget: File,
+  def fregec(cp: Seq[sbt.Attributed[File]], fregeSource: File, fregeTarget: File,
              fregeCompiler: String)(fregeSrcs: Set[File]): Set[File] = {
 
     val cps = cp.map(_.data).mkString(String.valueOf(File.pathSeparatorChar))
@@ -28,7 +28,9 @@ object SbtFrege extends AutoPlugin {
       fregeCompiler,
       "-j",
       "-fp", cps,
-      "-d", fregeTarget.getPath
+      "-d", fregeTarget.getPath,
+      "-sp", fregeSource.getPath,
+      "-make"
     ) ++ fregeSrcs.map(_.getPath)
 
     val forkOptions: ForkOptions = new ForkOptions
@@ -50,6 +52,7 @@ object SbtFrege extends AutoPlugin {
       val cached = FileFunction.cached(
         cacheDir, FilesInfo.lastModified, FilesInfo.exists) {
           fregec((managedClasspath in Compile).value,
+                 (fregeSource in Compile).value,
                  (fregeTarget in Compile).value,
                  (fregeCompiler in Compile).value)
         }

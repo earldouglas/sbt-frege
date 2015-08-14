@@ -1,0 +1,7 @@
+module example.Other where
+
+data Other = Any | Old
+
+main :: [String] -> IO ()
+main _ = do
+  putStrLn "This is the other"
