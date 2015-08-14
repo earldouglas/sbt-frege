@@ -1,0 +1,10 @@
+module example.Hello where
+
+data Other = Any | Old
+
+showOther :: Other -> String
+showOther Any = "any"
+showOther Old = "old"
+
+main :: [String] -> IO ()
+main _ = println "Hello, world!"

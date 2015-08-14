@@ -1,0 +1,14 @@
+# check if the file gets created
+$ absent target/frege/Main.java
+$ absent target/frege/example/Hello.java
+$ absent target/frege/example/Other.java
+$ absent target/scala-2.10/classes/Main.class
+$ absent target/scala-2.10/classes/example/Hello.class
+$ absent target/scala-2.10/classes/example/Other.class
+> compile
+$ exists target/frege/Main.java
+$ exists target/frege/example/Hello.java
+$ exists target/frege/example/Other.java
+$ exists target/scala-2.10/classes/Main.class
+$ exists target/scala-2.10/classes/example/Hello.class
+$ exists target/scala-2.10/classes/example/Other.class
