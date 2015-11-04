@@ -18,7 +18,8 @@ object SbtFrege extends AutoPlugin {
   override def requires = plugins.JvmPlugin
 
   def fregec(cp: Seq[sbt.Attributed[File]], fregeSource: File, fregeTarget: File,
-             fregeCompiler: String)(fregeSrcs: Set[File]): Set[File] = {
+             fregeCompiler: String, fregeOptions: Seq[String])
+            (fregeSrcs: Set[File]): Set[File] = {
 
     val cps = cp.map(_.data).mkString(String.valueOf(File.pathSeparatorChar))
 
@@ -31,7 +32,7 @@ object SbtFrege extends AutoPlugin {
       "-d", fregeTarget.getPath,
       "-sp", fregeSource.getPath,
       "-make"
-    ) ++ fregeSrcs.map(_.getPath)
+    ) ++ fregeOptions ++ fregeSrcs.map(_.getPath)
 
     val forkOptions: ForkOptions = new ForkOptions
     val fork = new Fork("java", None)
@@ -44,7 +45,7 @@ object SbtFrege extends AutoPlugin {
   }
 
   override def projectSettings = Seq(
-    fregeOptions := Seq("-Xss1m"),
+    fregeOptions := Seq(),
     fregeSource := (sourceDirectory in Compile).value / "frege",
     fregeTarget := baseDirectory.value / "target" / "frege",
     sourceGenerators in Compile += Def.task {
@@ -54,7 +55,8 @@ object SbtFrege extends AutoPlugin {
           fregec((managedClasspath in Compile).value,
                  (fregeSource in Compile).value,
                  (fregeTarget in Compile).value,
-                 (fregeCompiler in Compile).value)
+                 (fregeCompiler in Compile).value,
+                 (fregeOptions in Compile).value)
         }
       cached((fregeSource.value ** "*.fr").get.toSet).toSeq
     }.taskValue,
