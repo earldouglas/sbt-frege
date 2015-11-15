@@ -2,7 +2,7 @@
 organization  :=  "com.earldouglas"
 name          :=  "sbt-frege"
 sbtPlugin     :=  true
-scalaVersion  :=  "2.10.5"
+scalaVersion  :=  "2.10.6"
 scalacOptions ++= Seq("-feature", "-deprecation")
 
 // scripted-plugin
