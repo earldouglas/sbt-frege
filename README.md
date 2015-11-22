@@ -42,7 +42,7 @@ Hello, world!
 * `fregeCompiler`: Full name of the Frege compiler (default
   *frege.compiler.Main*) (`String`)
 * `fregeLibrary`: Frege library (fregec.jar) to use (default *Frege
-  3.23.370*) (`ModuleID`)
+  3.23.401*) (`ModuleID`)
 
 ## Features
 

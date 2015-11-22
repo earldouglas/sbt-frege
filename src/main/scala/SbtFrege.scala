@@ -65,9 +65,7 @@ object SbtFrege extends AutoPlugin {
       watchSources.value ++
       ((sourceDirectory in Compile).value / "frege" ** "*").get
     },
-    fregeLibrary := "frege" % "fregec" % "3.22.524" from
-      "https://github.com/Frege/frege/releases/download/3.23.288/" +
-      "frege3.23.370-g898bc8c.jar",
+    fregeLibrary := "org.frege-lang" % "frege" % "3.23.401-g7c45277"
     libraryDependencies += fregeLibrary.value
   )
 
