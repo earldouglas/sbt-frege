@@ -1,0 +1,5 @@
+$ absent plainFrege/target/frege/com/earldouglas/helloworld/HelloWorld.java
+$ absent javaCallsFrege/target/scala-2.10/classes/com/earldouglas/helloworld/HelloFrege.class
+> compile
+$ exists plainFrege/target/frege/com/earldouglas/helloworld/HelloWorld.java
+$ exists javaCallsFrege/target/scala-2.10/classes/com/earldouglas/helloworld/HelloFrege.class

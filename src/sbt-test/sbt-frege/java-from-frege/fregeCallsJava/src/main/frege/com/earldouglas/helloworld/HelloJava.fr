@@ -1,0 +1,7 @@
+package com.earldouglas.helloworld.HelloJava where
+
+data HelloWorld = native com.earldouglas.helloworld.HelloWorld where
+  native main HelloWorld.main :: MutableIO (JArray String) -> IO ()
+
+main :: [String] -> IO ()
+main = HelloWorld.main . mutable . arrayFromList

@@ -52,7 +52,7 @@ object SbtFrege extends AutoPlugin {
       val cacheDir = streams.value.cacheDirectory / "frege"
       val cached = FileFunction.cached(
         cacheDir, FilesInfo.lastModified, FilesInfo.exists) {
-          fregec((managedClasspath in Compile).value,
+          fregec((managedClasspath in Compile).value ++ (dependencyClasspath in Compile).value,
                  (fregeSource in Compile).value,
                  (fregeTarget in Compile).value,
                  (fregeCompiler in Compile).value,
