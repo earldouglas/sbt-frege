@@ -4,11 +4,15 @@ import Keys._
 object SbtFrege extends AutoPlugin {
 
   object autoImport {
-    lazy val fregeOptions  = taskKey[Seq[String]]("Extra options for fregec")
-    lazy val fregeSource   = settingKey[File]("Frege source directory")
-    lazy val fregeTarget   = settingKey[File]("Frege target directory")
-    lazy val fregeCompiler = settingKey[String]("Full name of the Frege compiler")
-    lazy val fregeLibrary  = settingKey[ModuleID]("Frege library (fregec.jar)")
+    lazy val fregeOptions       = taskKey[Seq[String]]("Extra options for fregec")
+    lazy val fregeSource        = settingKey[File]("Frege source directory")
+    lazy val fregeTarget        = settingKey[File]("Frege target directory")
+    lazy val fregeCompiler      = settingKey[String]("Full name of the Frege compiler")
+    lazy val fregeLibrary       = settingKey[ModuleID]("Frege library (fregec.jar)")
+    lazy val fregeReplVersion   = settingKey[String]("Frege REPL version")
+    lazy val fregeRepl          = inputKey[Unit]("Run the Frege REPL")
+    lazy val fregeReplMainClass = settingKey[String]("Frege REPL main class")
+    lazy val fregeReplConfig    = config("frege-repl").hide
   }
 
   import autoImport._
@@ -16,6 +20,7 @@ object SbtFrege extends AutoPlugin {
 
   override def trigger = allRequirements
   override def requires = plugins.JvmPlugin
+  override val projectConfigurations = Seq(fregeReplConfig)
 
   def fregec(cp: Seq[sbt.Attributed[File]], fregeSource: File, fregeTarget: File,
              fregeCompiler: String, fregeOptions: Seq[String])
@@ -65,8 +70,18 @@ object SbtFrege extends AutoPlugin {
       watchSources.value ++
       ((sourceDirectory in Compile).value / "frege" ** "*").get
     },
-    fregeLibrary := "org.frege-lang" % "frege" % "3.23.401-g7c45277",
-    libraryDependencies += fregeLibrary.value
+    fregeLibrary := "org.frege-lang" % "frege" % "3.23.288-gaa3af0c",
+    libraryDependencies += fregeLibrary.value,
+    fregeReplVersion := "1.3",
+    libraryDependencies += "org.frege-lang" % "frege-repl-core" % fregeReplVersion.value % fregeReplConfig,
+    fregeReplMainClass := "frege.repl.FregeRepl",
+    fregeRepl := {
+      val libs: Seq[File] = Classpaths.managedJars(fregeReplConfig, classpathTypes.value, update.value).map(_.data)
+      val cp: String = Path.makeString(libs)
+      val forkOptions = new ForkOptions(connectInput = true, outputStrategy = Some(sbt.StdoutOutput))
+      val mainClass: String = fregeReplMainClass.value
+      new Fork("java", None).fork(forkOptions, Seq("-cp", cp, mainClass)).exitValue()
+    }
   )
 
 }
