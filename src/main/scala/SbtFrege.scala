@@ -71,9 +71,16 @@ object SbtFregec extends AutoPlugin {
 
 }
 
+/* Adds integration with frege-repl:
+ *   * Launch the Frege REPL from sbt with the fregeRepl command
+ *   * Access your project's classes and libraries from the Frege REPL
+ * See: https://github.com/Frege/frege-repl
+ */
 object SbtFregeRepl extends AutoPlugin {
 
   object autoImport {
+    // Use a special configuration so as not to pollute the Compile
+    // configuration with frege-repl's jar and transitive dependencies.
     lazy val fregeReplConfig    = config("fregeReplConfig").hide
     lazy val fregeReplVersion   = settingKey[String]("Frege REPL version")
     lazy val fregeRepl          = inputKey[Unit]("Run the Frege REPL")
