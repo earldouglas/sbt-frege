@@ -44,7 +44,7 @@ Try it from the Frege REPL:
 $ sbt
 > fregeRepl
 
-frege> import com.earldouglas.helloworld.HelloWorld (main)
+frege> import example.HelloWorld (main)
 
 frege> main []
 Hello, world!
