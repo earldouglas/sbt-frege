@@ -1,8 +1,8 @@
 ## Features
 
-* Compile Frege code in *src/main/frege/*
-* Call Frege code from Java/Scala/etc. code
-* Launch the [Frege REPL][1] with your project's classes
+* Compile Frege code from your project's *src/main/frege/* directory
+* Call Frege code from your project's Java/Scala/etc. code
+* Launch the [Frege REPL][1] with your project's classes and libraries
 
 ## Requirements
 
@@ -53,15 +53,23 @@ Hello, world!
 
 ## Configuration
 
-* `fregeOptions`: Extra options for fregec (`Seq[String]`)
-* `fregeSource`: Frege source directory (default *src/main/frege/*)
-  (`File`)
-* `fregeTarget`: Frege target directory (default *target/frege/*)
-  (`File`)
-* `fregeCompiler`: Full name of the Frege compiler (default
-  *frege.compiler.Main*) (`String`)
-* `fregeLibrary`: Frege library (fregec.jar) to use (default *Frege
-  3.23.401*) (`ModuleID`)
+### Frege compiler
 
+* `fregeOptions` - Extra options for fregec: `Seq[String]`
+* `fregeSource` - Frege source directory (default *src/main/frege/*):
+  `File`
+* `fregeTarget` - Frege target directory (default *target/frege/*):
+  `File`
+* `fregeCompiler` - Full name of the Frege compiler (default
+  *frege.compiler.Main*): `String`
+* `fregeLibrary` - Frege library (fregec.jar) to use (default *Frege
+  3.23.288*), `ModuleID`
+
+### Frege REPL
+
+* `fregeReplVersion` - The version of [frege-repl][1] to use (default
+  1.3): `String`
+* `fregeReplMainClass` - The Frege REPL main class (default
+  `frege.repl.FregeRepl`): `String`
 
 [1]: https://github.com/Frege/frege-repl
