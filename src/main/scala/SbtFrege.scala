@@ -91,8 +91,10 @@ object SbtFregeRepl extends AutoPlugin {
     libraryDependencies += "org.frege-lang" % "frege-repl-core" % fregeReplVersion.value % fregeReplConfig,
     fregeReplMainClass := "frege.repl.FregeRepl",
     fregeRepl := {
-      val libs: Seq[File] = Classpaths.managedJars(fregeReplConfig, classpathTypes.value, update.value).map(_.data)
-      val cp: String = Path.makeString(libs)
+      val cp: String = Path.makeString((
+        (fullClasspath in Compile).value ++
+        Classpaths.managedJars(fregeReplConfig, classpathTypes.value, update.value)
+      ).map(_.data))
       val forkOptions = new ForkOptions(connectInput = true, outputStrategy = Some(sbt.StdoutOutput))
       val mainClass: String = fregeReplMainClass.value
       new Fork("java", None).fork(forkOptions, Seq("-cp", cp, mainClass)).exitValue()

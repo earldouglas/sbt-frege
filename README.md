@@ -1,3 +1,9 @@
+## Features
+
+* Compile Frege code in *src/main/frege/*
+* Call Frege code from Java/Scala/etc. code
+* Launch the [Frege REPL][1] with your project's classes
+
 ## Requirements
 
 * sbt 0.13.6+
@@ -32,6 +38,19 @@ $ sbt
 Hello, world!
 ```
 
+Try it from the Frege REPL:
+
+```
+$ sbt
+> fregeRepl
+
+frege> import com.earldouglas.helloworld.HelloWorld (main)
+
+frege> main []
+Hello, world!
+()
+```
+
 ## Configuration
 
 * `fregeOptions`: Extra options for fregec (`Seq[String]`)
@@ -44,7 +63,5 @@ Hello, world!
 * `fregeLibrary`: Frege library (fregec.jar) to use (default *Frege
   3.23.401*) (`ModuleID`)
 
-## Features
 
-* Compile Frege code in *src/main/frege/*
-* Call Frege code from Java/Scala/etc. code
+[1]: https://github.com/Frege/frege-repl
