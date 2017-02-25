@@ -15,7 +15,7 @@ Add the Frege sbt plugin to your project:
 *project/plugins.sbt:*
 
 ```scala
-addSbtPlugin("com.earldouglas" % "sbt-frege" % "1.1.1")
+addSbtPlugin("com.earldouglas" % "sbt-frege" % "1.1.2")
 ```
 
 Write some Frege code:
@@ -71,5 +71,8 @@ Hello, world!
   1.3): `String`
 * `fregeReplMainClass` - The Frege REPL main class (default
   `frege.repl.FregeRepl`): `String`
+
+Though sbt-frege uses 3.24-7.30 by default, Frege REPL 1.3 depends on
+Frege 3.23.288, so it takes priority when launching `fregeRepl`.
 
 [1]: https://github.com/Frege/frege-repl
