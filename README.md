@@ -15,7 +15,7 @@ Add the Frege sbt plugin to your project:
 *project/plugins.sbt:*
 
 ```scala
-addSbtPlugin("com.earldouglas" % "sbt-frege" % "1.1.1")
+addSbtPlugin("com.earldouglas" % "sbt-frege" % "1.1.2")
 ```
 
 Write some Frege code:
