@@ -65,7 +65,7 @@ object SbtFregec extends AutoPlugin {
       watchSources.value ++
       ((sourceDirectory in Compile).value / "frege" ** "*").get
     },
-    fregeLibrary := "org.frege-lang" % "frege" % "3.23.288-gaa3af0c",
+    fregeLibrary := "org.frege-lang" % "frege" % "3.24-7.30",
     libraryDependencies += fregeLibrary.value
   )
 
@@ -99,8 +99,8 @@ object SbtFregeRepl extends AutoPlugin {
     fregeReplMainClass := "frege.repl.FregeRepl",
     fregeRepl := {
       val cp: String = Path.makeString((
-        (fullClasspath in Compile).value ++
-        Classpaths.managedJars(fregeReplConfig, classpathTypes.value, update.value)
+        Classpaths.managedJars(fregeReplConfig, classpathTypes.value, update.value) ++
+        (fullClasspath in Compile).value
       ).map(_.data))
       val forkOptions = new ForkOptions(connectInput = true, outputStrategy = Some(sbt.StdoutOutput))
       val mainClass: String = fregeReplMainClass.value
