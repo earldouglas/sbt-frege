@@ -34,7 +34,7 @@ object SbtFregec extends AutoPlugin {
       "-make"
     ) ++ fregeOptions ++ fregeSrcs.map(_.getPath)
 
-    val forkOptions: ForkOptions = new ForkOptions
+    val forkOptions: ForkOptions = ForkOptions()
     val fork = new Fork("java", None)
     val result = fork(forkOptions, Seq("-cp", cps) ++ fregeArgs)
     if (result != 0) {
@@ -62,8 +62,8 @@ object SbtFregec extends AutoPlugin {
     }.taskValue,
     fregeCompiler := "frege.compiler.Main",
     watchSources := {
-      watchSources.value ++
-      ((sourceDirectory in Compile).value / "frege" ** "*").get
+       watchSources.value ++
+      ((sourceDirectory in Compile).value / "frege" ** "*").get.map(x=>WatchSource(x))
     },
     fregeLibrary := "org.frege-lang" % "frege" % "3.24.100.1" classifier "jdk8",
     libraryDependencies += fregeLibrary.value
@@ -81,7 +81,7 @@ object SbtFregeRepl extends AutoPlugin {
   object autoImport {
     // Use a special configuration so as not to pollute the Compile
     // configuration with frege-repl's jar and transitive dependencies.
-    lazy val fregeReplConfig    = config("fregeReplConfig").hide
+    lazy val FregeReplConfig    = config("FregeReplConfig").hide
     lazy val fregeReplVersion   = settingKey[String]("Frege REPL version")
     lazy val fregeRepl          = inputKey[Unit]("Run the Frege REPL")
     lazy val fregeReplMainClass = settingKey[String]("Frege REPL main class")
@@ -91,18 +91,18 @@ object SbtFregeRepl extends AutoPlugin {
 
   override def trigger = allRequirements
   override def requires = plugins.JvmPlugin
-  override val projectConfigurations = Seq(fregeReplConfig)
+  override val projectConfigurations = Seq(FregeReplConfig)
 
   override def projectSettings = Seq(
     fregeReplVersion := "1.3",
-    libraryDependencies += "org.frege-lang" % "frege-repl-core" % fregeReplVersion.value % fregeReplConfig,
+    libraryDependencies += "org.frege-lang" % "frege-repl-core" % fregeReplVersion.value % FregeReplConfig,
     fregeReplMainClass := "frege.repl.FregeRepl",
     fregeRepl := {
       val cp: String = Path.makeString((
-        Classpaths.managedJars(fregeReplConfig, classpathTypes.value, update.value) ++
+        Classpaths.managedJars(FregeReplConfig, classpathTypes.value, update.value) ++
         (fullClasspath in Compile).value
       ).map(_.data))
-      val forkOptions = new ForkOptions(connectInput = true, outputStrategy = Some(sbt.StdoutOutput))
+      val forkOptions = ForkOptions().withConnectInput(true).withOutputStrategy(Some(sbt.StdoutOutput))
       val mainClass: String = fregeReplMainClass.value
       new Fork("java", None).fork(forkOptions, Seq("-cp", cp, mainClass)).exitValue()
     }
