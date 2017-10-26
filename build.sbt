@@ -17,3 +17,9 @@ scalacOptions ++=
 // bintray-sbt
 publishMavenStyle := false
 licenses += ("BSD New", url("http://opensource.org/licenses/BSD-3-Clause"))
+
+// scripted-plugin
+scriptedLaunchOpts := { scriptedLaunchOpts.value ++
+  Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+}
+scriptedBufferLog := false
