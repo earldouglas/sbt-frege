@@ -8,7 +8,7 @@
 
 * sbt 1.0.0+
 
-*For sbt 0.13.6+ projects, use sbt-frege version 1.1.2*
+*For sbt 0.13.6+ projects, use sbt-frege version 1.1.3*
 
 ## Getting started
 
