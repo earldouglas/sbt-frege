@@ -1,7 +1,9 @@
 // general
 organization := "com.earldouglas"
-name := "sbt-frege"
+name         := "sbt-frege"
+
 sbtPlugin := true
+
 scalaVersion := "2.12.4"
 scalacOptions ++=
   Seq( "-Yrangepos"
