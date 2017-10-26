@@ -1,5 +1,5 @@
 // bintray for publishing
-addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.1")
 
 // scripted for plugin testing
-libraryDependencies <+= sbtVersion(v => "org.scala-sbt" % "scripted-plugin" % v)
+libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
