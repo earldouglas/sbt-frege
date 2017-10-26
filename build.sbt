@@ -3,7 +3,14 @@ organization := "com.earldouglas"
 name := "sbt-frege"
 sbtPlugin := true
 scalaVersion := "2.12.4"
-scalacOptions ++= Seq("-feature", "-deprecation")
+scalacOptions ++=
+  Seq( "-Yrangepos"
+     , "-Ywarn-unused"
+     , "-Ywarn-unused-import"
+     , "-deprecation"
+     , "-feature"
+     , "-unchecked"
+     )
 
 // bintray-sbt
 publishMavenStyle := false
