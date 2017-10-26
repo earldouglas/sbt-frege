@@ -6,7 +6,9 @@
 
 ## Requirements
 
-* sbt 0.13.6+
+* sbt 1.0+
+
+*For sbt 0.13.6+ projects, use sbt-frege version 1.1.2*
 
 ## Getting started
 
@@ -15,7 +17,7 @@ Add the Frege sbt plugin to your project:
 *project/plugins.sbt:*
 
 ```scala
-addSbtPlugin("com.earldouglas" % "sbt-frege" % "1.1.3")
+addSbtPlugin("com.earldouglas" % "sbt-frege" % "2.0.0")
 ```
 
 Write some Frege code:
