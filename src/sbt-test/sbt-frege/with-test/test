@@ -1,0 +1,10 @@
+# check if the file gets created
+$ absent target/frege/com/earldouglas/helloworld/HelloWorld.java
+$ absent target/scala-2.12/classes/com/earldouglas/helloworld/HelloWorld.class
+$ absent target/test-frege/com/earldouglas/helloworld/HelloWorldTest.java
+$ absent target/scala-2.12/test-classes/com/earldouglas/helloworld/HelloWorldTest.class
+> test
+$ exists target/frege/com/earldouglas/helloworld/HelloWorld.java
+$ exists target/scala-2.12/classes/com/earldouglas/helloworld/HelloWorld.class
+$ exists target/test-frege/com/earldouglas/helloworld/HelloWorldTest.java
+$ exists target/scala-2.12/test-classes/com/earldouglas/helloworld/HelloWorldTest.class

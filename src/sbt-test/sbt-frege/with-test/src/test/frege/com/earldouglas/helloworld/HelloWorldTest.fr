@@ -1,0 +1,6 @@
+package com.earldouglas.helloworld.HelloWorldTest where
+
+import com.earldouglas.helloworld.HelloWorld ()
+
+someTest :: IO ()
+someTest = HelloWorld.main []

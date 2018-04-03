@@ -4,7 +4,7 @@ import sbt.Keys._
 object SbtFregec extends AutoPlugin {
 
   object autoImport {
-    lazy val fregeOptions  = taskKey[Seq[String]]("Extra options for fregec")
+    lazy val fregeOptions  = settingKey[Seq[String]]("Extra options for fregec")
     lazy val fregeSource   = settingKey[File]("Frege source directory")
     lazy val fregeTarget   = settingKey[File]("Frege target directory")
     lazy val fregeCompiler = settingKey[String]("Full name of the Frege compiler")
@@ -44,30 +44,37 @@ object SbtFregec extends AutoPlugin {
     }
   }
 
-  override def projectSettings = Seq(
-    fregeOptions := Seq(),
-    fregeSource := (sourceDirectory in Compile).value / "frege",
-    fregeTarget := baseDirectory.value / "target" / "frege",
-    sourceGenerators in Compile += Def.task {
-      val cacheDir = streams.value.cacheDirectory / "frege"
+  def scopedSettings(scope: Configuration, dirName: String) = Seq(
+    fregeSource in scope := (sourceDirectory in scope).value / "frege",
+    fregeTarget in scope := baseDirectory.value / "target" / dirName,
+    sourceGenerators in scope += Def.task {
+      val cacheDir = streams.value.cacheDirectory / dirName
       val cached = FileFunction.cached(
         cacheDir, FilesInfo.lastModified, FilesInfo.exists) {
-          fregec((managedClasspath in Compile).value ++ (dependencyClasspath in Compile).value,
-                 (fregeSource in Compile).value,
-                 (fregeTarget in Compile).value,
-                 (fregeCompiler in Compile).value,
-                 (fregeOptions in Compile).value)
+          fregec((managedClasspath in scope).value ++ (dependencyClasspath in scope).value,
+                 (fregeSource in scope).value,
+                 (fregeTarget in scope).value,
+                 (fregeCompiler in scope).value,
+                 (fregeOptions in scope).value)
         }
-      cached((fregeSource.value ** "*.fr").get.toSet).toSeq
-    }.taskValue,
-    fregeCompiler := "frege.compiler.Main",
-    watchSources := {
-       watchSources.value ++
-      ((sourceDirectory in Compile).value / "frege" ** "*").get.map(x=>WatchSource(x))
-    },
-    fregeLibrary := "org.frege-lang" % "frege" % "3.24.100.1" classifier "jdk8",
-    libraryDependencies += fregeLibrary.value
+      cached(((fregeSource in scope).value ** "*.fr").get.toSet).toSeq
+    }.taskValue
   )
+
+  override def projectSettings =
+    scopedSettings(Compile, "frege") ++
+    scopedSettings(Test,    "test-frege") ++
+    Seq(
+      fregeOptions := Seq(),
+      fregeCompiler := "frege.compiler.Main",
+      watchSources := {
+         watchSources.value ++
+        ((fregeSource in Compile).value ** "*").get.map(x=>WatchSource(x)) ++
+        ((fregeSource in Test   ).value ** "*").get.map(x=>WatchSource(x))
+      },
+      fregeLibrary := "org.frege-lang" % "frege" % "3.24.100.1" classifier "jdk8",
+      libraryDependencies += fregeLibrary.value
+    )
 
 }
 
