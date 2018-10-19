@@ -57,7 +57,8 @@ object SbtFregec extends AutoPlugin {
                  (fregeOptions in scope).value)
         }
       cached(((fregeSource in scope).value ** "*.fr").get.toSet).toSeq
-    }.taskValue
+    }.taskValue,
+    watchSources ++= ((fregeSource in scope).value ** "*").get.map(x=>WatchSource(x))
   )
 
   override def projectSettings =
@@ -66,11 +67,6 @@ object SbtFregec extends AutoPlugin {
     Seq(
       fregeOptions := Seq("-j"),
       fregeCompiler := "frege.compiler.Main",
-      watchSources := {
-         watchSources.value ++
-        ((fregeSource in Compile).value ** "*").get.map(x=>WatchSource(x)) ++
-        ((fregeSource in Test   ).value ** "*").get.map(x=>WatchSource(x))
-      },
       fregeLibrary := "org.frege-lang" % "frege" % "3.24.100.1" classifier "jdk8",
       libraryDependencies += fregeLibrary.value
     )
