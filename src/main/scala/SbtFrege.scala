@@ -27,7 +27,6 @@ object SbtFregec extends AutoPlugin {
 
     val fregeArgs = Seq(
       fregeCompiler,
-      "-j",
       "-fp", cps,
       "-d", fregeTarget.getPath,
       "-sp", fregeSource.getPath,
@@ -65,7 +64,7 @@ object SbtFregec extends AutoPlugin {
     scopedSettings(Compile, "frege") ++
     scopedSettings(Test,    "test-frege") ++
     Seq(
-      fregeOptions := Seq(),
+      fregeOptions := Seq("-j"),
       fregeCompiler := "frege.compiler.Main",
       watchSources := {
          watchSources.value ++
