@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/earldouglas/sbt-frege.svg?branch=master)](https://travis-ci.org/earldouglas/sbt-frege)
+
 ## Features
 
 * Compile Frege code from your project's *src/main/frege/* directory
