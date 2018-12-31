@@ -5,14 +5,21 @@ name := "sbt-frege"
 // build
 sbtPlugin := true
 scalaVersion := "2.12.8"
-scalacOptions ++=
-  Seq( "-Yrangepos"
-     , "-Ywarn-unused"
-     , "-Ywarn-unused-import"
-     , "-deprecation"
-     , "-feature"
-     , "-unchecked"
-     )
+scalacOptions ++= Seq( "-deprecation"
+                     , "-encoding", "utf8"
+                     , "-feature"
+                     , "-language:existentials"
+                     , "-language:experimental.macros"
+                     , "-language:higherKinds"
+                     , "-language:implicitConversions"
+                     , "-unchecked"
+                     , "-Xfatal-warnings"
+                     , "-Xlint"
+                     , "-Ypartial-unification"
+                     , "-Yrangepos"
+                     , "-Ywarn-unused"
+                     , "-Ywarn-unused-import"
+                     )
 
 // publish
 publishMavenStyle := false
