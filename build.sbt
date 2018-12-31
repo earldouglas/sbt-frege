@@ -1,9 +1,9 @@
-// general
+// meta
 organization := "com.earldouglas"
-name         := "sbt-frege"
+name := "sbt-frege"
 
+// build
 sbtPlugin := true
-
 scalaVersion := "2.12.4"
 scalacOptions ++=
   Seq( "-Yrangepos"
@@ -14,6 +14,6 @@ scalacOptions ++=
      , "-unchecked"
      )
 
-// bintray-sbt
+// publish
 publishMavenStyle := false
 licenses += ("BSD New", url("http://opensource.org/licenses/BSD-3-Clause"))
