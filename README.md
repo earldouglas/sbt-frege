@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/earldouglas/sbt-frege.svg?branch=master)](https://travis-ci.org/earldouglas/sbt-frege)
+![Build Status](https://github.com/earldouglas/sbt-frege/workflows/build/badge.svg)
 
 ## Features
 
