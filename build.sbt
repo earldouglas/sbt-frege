@@ -4,6 +4,7 @@ name := "sbt-frege"
 
 // build
 sbtPlugin := true
+crossSbtVersions := Seq("1.0.1")
 enablePlugins(SbtPlugin)
 scalaVersion := "2.12.12"
 scalacOptions ++= Seq( "-deprecation"
