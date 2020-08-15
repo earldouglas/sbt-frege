@@ -1,4 +1,5 @@
-![Build Status](https://github.com/earldouglas/sbt-frege/workflows/build/badge.svg)
+[![Build status](https://github.com/earldouglas/sbt-frege/workflows/build/badge.svg)](https://github.com/earldouglas/sbt-frege/actions)
+[![Latest version](https://img.shields.io/github/tag/earldouglas/sbt-frege.svg)](https://index.scala-lang.org/earldouglas/sbt-frege)
 
 ## Features
 
