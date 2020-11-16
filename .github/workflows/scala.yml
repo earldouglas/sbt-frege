@@ -16,4 +16,4 @@ jobs:
     - name: Run Scala tests
       run: sbt ^test
     - name: Run sbt tests
-      run: sbt ^scripted
+      run: sbt scripted
