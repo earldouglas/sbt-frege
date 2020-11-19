@@ -10,6 +10,7 @@
 ## Requirements
 
 * sbt 1.0.1+
+* Scala 2.4.0+
 
 *For sbt 0.13.6+ projects, use sbt-frege version 1.1.3*
 
