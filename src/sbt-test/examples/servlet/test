@@ -1,0 +1,5 @@
+> jetty:quickstart
+> await 8080
+> get http://localhost:8080/hello 200
+> jetty:stop
+-> get http://localhost:8080/hello 200
