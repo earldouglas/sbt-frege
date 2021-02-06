@@ -61,22 +61,21 @@ Hello, world!
 
 ### Frege compiler
 
-* `fregeOptions` - Extra options for fregec: `Seq[String]`
-* `fregeSource` - Frege source directory (default *src/main/frege/*):
-  `File`
-* `fregeTarget` - Frege target directory (default *target/frege/*):
-  `File`
-* `fregeCompiler` - Full name of the Frege compiler (default
-  *frege.compiler.Main*): `String`
-* `fregeLibrary` - Frege library (fregec.jar) to use (default *Frege
-  3.23.288*), `ModuleID`
+* `fregeOptions: Seq[String]` - Extra options for fregec
+* `fregeSource: File` - Frege source directory (default
+  *src/main/frege/*)
+* `fregeTarget: File` - Frege target directory (default *target/frege/*)
+* `fregeCompiler: String` - Full name of the Frege compiler (default
+  *frege.compiler.Main*)
+* `fregeLibrary: ModuleID` - Frege library (fregec.jar) to use (default
+  *Frege 3.23.288*)
 
 ### Frege REPL
 
-* `fregeReplVersion` - The version of [frege-repl][1] to use (default
-  1.3): `String`
-* `fregeReplMainClass` - The Frege REPL main class (default
-  `frege.repl.FregeRepl`): `String`
+* `fregeReplVersion: String` - The version of [frege-repl][1] to use
+  (default 1.3)
+* `fregeReplMainClass: String` - The Frege REPL main class (default
+  `frege.repl.FregeRepl`)
 
 Though sbt-frege uses 3.24.100.1 by default, Frege REPL 1.3 depends on
 Frege 3.23.288, so it takes priority when launching `fregeRepl`.
