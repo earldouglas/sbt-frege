@@ -1,4 +1,0 @@
-package com.earldouglas.helloworld.HelloWorld where
-
-main :: [String] -> IO ()
-main _ = print "Hello, world!"
