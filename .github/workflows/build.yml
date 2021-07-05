@@ -14,3 +14,5 @@ jobs:
         java-version: 8
     - run: sbt test
     - run: sbt scripted
+    - run: sbt publishLocal
+    - run: src/reqs/check.sh
