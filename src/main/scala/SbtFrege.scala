@@ -44,21 +44,21 @@ object SbtFregec extends AutoPlugin {
   }
 
   def scopedSettings(scope: Configuration, dirName: String) = Seq(
-    fregeSource in scope := (sourceDirectory in scope).value / "frege",
-    fregeTarget in scope := baseDirectory.value / "target" / dirName,
-    sourceGenerators in scope += Def.task {
+    scope / fregeSource := (scope / sourceDirectory).value / "frege",
+    scope / fregeTarget := baseDirectory.value / "target" / dirName,
+    scope / sourceGenerators += Def.task {
       val cacheDir = streams.value.cacheDirectory / dirName
       val cached = FileFunction.cached(
         cacheDir, FilesInfo.lastModified, FilesInfo.exists) {
-          fregec((managedClasspath in scope).value ++ (dependencyClasspath in scope).value,
-                 (fregeSource in scope).value,
-                 (fregeTarget in scope).value,
-                 (fregeCompiler in scope).value,
-                 (fregeOptions in scope).value)
+          fregec((scope / managedClasspath).value ++ (scope / dependencyClasspath).value,
+                 (scope / fregeSource).value,
+                 (scope / fregeTarget).value,
+                 (scope / fregeCompiler).value,
+                 (scope / fregeOptions).value)
         }
-      cached(((fregeSource in scope).value ** "*.fr").get.toSet).toSeq
+      cached(((scope / fregeSource).value ** "*.fr").get.toSet).toSeq
     }.taskValue,
-    watchSources ++= ((fregeSource in scope).value ** "*").get.map(x=>WatchSource(x))
+    watchSources ++= ((scope / fregeSource).value ** "*").get.map(x=>WatchSource(x))
   )
 
   override def projectSettings =
@@ -102,7 +102,7 @@ object SbtFregeRepl extends AutoPlugin {
     fregeRepl := {
       val cp: String = Path.makeString((
         Classpaths.managedJars(FregeReplConfig, classpathTypes.value, update.value) ++
-        (fullClasspath in Compile).value
+        (Compile / fullClasspath).value
       ).map(_.data))
       val forkOptions = ForkOptions().withConnectInput(true).withOutputStrategy(Some(sbt.StdoutOutput))
       val mainClass: String = fregeReplMainClass.value
