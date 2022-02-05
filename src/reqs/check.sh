@@ -32,7 +32,7 @@ function _test() {
   popd
 }
 
-for SBT_VERSION in 1.3.0 1.3.13 1.4.1 1.4.9 1.5.0 1.5.7 1.6.0 1.6.1
+for SBT_VERSION in 1.3.0 1.3.13 1.4.1 1.4.9 1.5.0 1.5.7 1.6.0 1.6.2
 do
   SBT_LAUNCH=https://repo1.maven.org/maven2/org/scala-sbt/sbt-launch/$SBT_VERSION/sbt-launch-$SBT_VERSION.jar
   test
