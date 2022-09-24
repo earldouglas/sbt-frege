@@ -5,7 +5,7 @@ name := "sbt-frege"
 // build
 sbtPlugin := true
 enablePlugins(SbtPlugin)
-scalaVersion := "2.12.17"
+scalaVersion := "2.13.9"
 scalacOptions ++= Seq( "-deprecation"
                      , "-encoding", "utf8"
                      , "-feature"
