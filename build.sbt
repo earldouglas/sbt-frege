@@ -6,6 +6,26 @@ name := "sbt-frege"
 sbtPlugin := true
 enablePlugins(SbtPlugin)
 scalaVersion := "2.12.20"
+crossScalaVersions += "3.3.4"
+pluginCrossBuild / sbtVersion := {
+  scalaBinaryVersion.value match {
+    case "2.12" => (pluginCrossBuild / sbtVersion).value
+    case _      => "2.0.0-M2"
+  }
+}
+scalacOptions ++= {
+  scalaBinaryVersion.value match {
+    case "2.12" =>
+      Seq(
+        "-Ywarn-unused-import",
+        "-Xlint",
+        "-Ypartial-unification",
+        "-Yrangepos"
+      )
+    case _ =>
+      Seq.empty // ("-Wunused:all") this is blocked by sbt/sbt#7726
+  }
+}
 scalacOptions ++= Seq( "-deprecation"
                      , "-encoding", "utf8"
                      , "-feature"
@@ -15,11 +35,6 @@ scalacOptions ++= Seq( "-deprecation"
                      , "-language:implicitConversions"
                      , "-unchecked"
                      , "-Xfatal-warnings"
-                     , "-Xlint"
-                     , "-Ypartial-unification"
-                     , "-Yrangepos"
-                     , "-Ywarn-unused"
-                     , "-Ywarn-unused-import"
                      )
 
 // publish to Sonatype, https://www.scala-sbt.org/release/docs/Using-Sonatype.html
