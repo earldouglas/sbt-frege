@@ -1,3 +1,5 @@
+package com.earldouglas.sbt.frege
+
 import sbt._
 import sbt.Keys._
 
@@ -17,11 +19,11 @@ object SbtFregec extends AutoPlugin {
   override def trigger = allRequirements
   override def requires = plugins.JvmPlugin
 
-  def fregec(cp: Seq[sbt.Attributed[File]], fregeSource: File, fregeTarget: File,
+  def fregec(cp: Seq[File], fregeSource: File, fregeTarget: File,
              fregeCompiler: String, fregeOptions: Seq[String])
             (fregeSrcs: Set[File]): Set[File] = {
 
-    val cps = cp.map(_.data).mkString(String.valueOf(File.pathSeparatorChar))
+    val cps = cp.mkString(String.valueOf(File.pathSeparatorChar))
 
     fregeTarget.mkdirs()
 
@@ -39,26 +41,26 @@ object SbtFregec extends AutoPlugin {
     if (result != 0) {
       throw new RuntimeException("Frege compilation error")
     } else {
-      (PathFinder(fregeTarget) ** "*.java").get.toSet
+      (PathFinder(fregeTarget) ** "*.java").get().toSet
     }
   }
 
   def scopedSettings(scope: Configuration, dirName: String) = Seq(
-    scope / fregeSource := (scope / sourceDirectory).value / "frege",
-    scope / fregeTarget := baseDirectory.value / "target" / dirName,
-    scope / sourceGenerators += Def.task {
+    Compat.fregeSource(scope) := (Compat.sourceDirectory(scope)).value / "frege",
+    Compat.fregeTarget(scope) := baseDirectory.value / "target" / dirName,
+    Compat.sourceGenerators(scope) += Def.task {
       val cacheDir = streams.value.cacheDirectory / dirName
       val cached = FileFunction.cached(
         cacheDir, FilesInfo.lastModified, FilesInfo.exists) {
-          fregec((scope / managedClasspath).value ++ (scope / dependencyClasspath).value,
-                 (scope / fregeSource).value,
-                 (scope / fregeTarget).value,
-                 (scope / fregeCompiler).value,
-                 (scope / fregeOptions).value)
+          fregec((Compat.managedClasspath(scope)).value ++ (Compat.dependencyClasspath(scope)).value,
+                 (Compat.fregeSource(scope)).value,
+                 (Compat.fregeTarget(scope)).value,
+                 (Compat.fregeCompiler(scope)).value,
+                 (Compat.fregeOptions(scope)).value)
         }
-      cached(((scope / fregeSource).value ** "*.fr").get.toSet).toSeq
+      cached(((Compat.fregeSource(scope)).value ** "*.fr").get().toSet).toSeq
     }.taskValue,
-    watchSources ++= ((scope / fregeSource).value ** "*").get.map(x=>WatchSource(x))
+    watchSources ++= ((Compat.fregeSource(scope)).value ** "*").get().map(x=>WatchSource(x))
   )
 
   override def projectSettings =
@@ -100,10 +102,11 @@ object SbtFregeRepl extends AutoPlugin {
     libraryDependencies += "org.frege-lang" % "frege-repl-core" % fregeReplVersion.value % FregeReplConfig,
     fregeReplMainClass := "frege.repl.FregeRepl",
     fregeRepl := {
-      val cp: String = Path.makeString((
-        Classpaths.managedJars(FregeReplConfig, classpathTypes.value, update.value) ++
-        (Compile / fullClasspath).value
-      ).map(_.data))
+      val cp: String =
+        Path.makeString(
+          Compat.managedJars(FregeReplConfig).value ++
+          (Compat.Compile_fullClasspath).value
+        )
       val forkOptions = ForkOptions().withConnectInput(true).withOutputStrategy(Some(sbt.StdoutOutput))
       val mainClass: String = fregeReplMainClass.value
       new Fork("java", None).fork(forkOptions, Seq("-cp", cp, mainClass)).exitValue()
