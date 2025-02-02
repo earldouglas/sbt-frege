@@ -14,7 +14,28 @@
 
 *For sbt 0.13.6+ projects, use sbt-frege version 1.1.3*
 
-## Getting started
+## Getting started from a template
+
+```
+$ sbt new earldouglas/sbt-frege.g8
+A project built with sbt-frege
+
+name [My Frege Project]: hello frege
+
+Template applied in ./hello-frege
+
+$ cd hello-frege/
+$ sbt
+> test
+example.HelloWorldSuite:
+  + multiply 0.008s
+  + showWork 0.016s
+[info] Passed: Total 2, Failed 0, Errors 0, Passed 2
+> run
+[info] 6 * 7 = 42
+```
+
+## Getting started from scratch
 
 Add the Frege sbt plugin to your project:
 
