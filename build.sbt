@@ -47,5 +47,6 @@ organizationHomepage := Some(url("https://earldouglas.com/"))
 organizationName := "James Earl Douglas"
 pomIncludeRepository := { _ => false }
 publishMavenStyle := true
-publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
+publishTo := sonatypePublishToBundle.value
 scmInfo := Some(ScmInfo(url("https://github.com/earldouglas/sbt-frege"), "scm:git@github.com:earldouglas/sbt-frege.git"))
+versionScheme := Some("semver-spec")
